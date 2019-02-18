@@ -16,7 +16,7 @@ class LocalDT extends React.Component {
     render() {
         return (
             <div>
-                <h1>{this.state.currentDateTime}</h1>
+                <h1>{this.state.currentDateTime.toUTCString()}</h1>
             </div>
         );
     }
