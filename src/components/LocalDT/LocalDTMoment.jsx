@@ -25,7 +25,9 @@ class LocalDTMoment extends React.Component {
                         (
                             <React.Fragment>
                                 <p>
-                                    {duration.months()} months {duration.days()} days {duration.hours()} hours {duration.minutes()} minutes {duration.seconds()} seconds until the time ends!</p>
+                                    {duration.months()} months {duration.days()} days {duration.hours()} hours {duration.minutes()} minutes {duration.seconds()} seconds
+                                </p>
+                                <p>Until the time ends!</p>
                             </React.Fragment>
                         ) :
                         (<h1>{moment(this.state.currentDateTime).format('MMMM Do YYYY, h:mm:ss a')}</h1>)

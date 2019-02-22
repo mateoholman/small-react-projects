@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { storiesOf } from '@storybook/react';
 import LocalDT from './index.jsx';
 import LocalDTMoment from './LocalDTMoment.jsx';
