@@ -1,0 +1,127 @@
+.typeahead-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.downshift-container {
+    width: 250px;
+    margin: auto;
+}
+
+.downshift-input-container,
+.downshift-menu-container {
+    position: relative;
+}
+
+.downshift-menu-container {
+    width: 292px;
+}
+
+.typeahead-input {
+    width: 100%;
+    font-size: 14px;
+    word-wrap: break-word;
+    line-height: 1em;
+    outline: 0;
+    white-space: normal;
+    min-height: 2em;
+    background: #fff;
+    display: inline-block;
+    padding-left: .5em;
+    color: rgba(0, 0, 0, 0.87);
+    box-shadow: none;
+    border: 1px solid rgba(34, 36, 38, 0.15);
+    border-radius: .30rem;
+    transition: box-shadow .1s ease,width .1s ease;
+
+    &:hover,
+    &:focus {
+        border-color: #96c8da;
+        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+    }
+
+    .isOpen {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+
+        &:hover,
+        &:focus {
+            box-shadow: none;
+        }
+    }
+}
+
+.controller-button {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    width: 47;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.base-menu {
+    border: none;
+    padding: 0;
+    margin-top: 0;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    max-height: 20rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    outline: 0;
+    transition: opacity .1s ease;
+    border-radius: 0 0 .28571429rem .28571429rem;
+    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+    .isOpen {
+        border-color: #96c8da;
+        border-top-width: 0;
+        border-right-width: 1;
+        border-bottom-width: 1;
+        border-left-width: 1;
+        border-style: solid;
+    }
+}
+
+.menu-item {
+    position: relative;
+    cursor: pointer;
+    display: block;
+    border: none;
+    height: auto;
+    text-align: left;
+    border-top: none;
+    line-height: 1em;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 1rem;
+    text-transform: none;
+    font-weight: 400;
+    box-shadow: none;
+    padding: .8rem 1.1rem;
+    white-space: normal;
+    word-wrap: normal;
+
+    b {
+        color: rgb(255, 122, 112);
+    }
+
+    .isActive {
+        color: rgba(0, 0, 0, 0.95);
+        background: rgba(0, 0, 0, 0.03);
+    }
+
+    .isSelected {
+        color: rgba(0, 0, 0, 0.95);
+        font-weight: 700;
+    }
+}
