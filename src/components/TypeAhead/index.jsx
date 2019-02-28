@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 
 require('./TypeAhead.scss');
@@ -17,21 +18,6 @@ const XIcon = () => (
   </svg>
 );
 
-const items = ['Açaí', 'Apple', 'Akee', 'Apricot', 'Avocado', 'Banana', 'Bilberry', 'Blackberry',
-  'Blackcurrant', 'Black sapote', 'Blueberry', 'Boysenberry', 'Buddha\'s hand', 'Crab apples',
-  'Currant', 'Cherry', 'Cherimoya', 'Chico fruit', 'Cloudberry', 'Coconut', 'Cranberry',
-  'Damson', 'Date', 'Dragonfruit', 'Pitaya', 'Durian', 'Elderberry', 'Feijoa', 'Fig', 'Goji berry',
-  'Gooseberry', 'Grape', 'Raisin', 'Grapefruit', 'Guava', 'Honeyberry', 'Huckleberry', 'Jabuticaba',
-  'Jackfruit', 'Jambul', 'Japanese plum', 'Jostaberry', 'Jujube', 'Juniper berry', 'Kiwano', 'Kiwifruit',
-  'Kumquat', 'Lemon', 'Lime', 'Loquat', 'Longan', 'Lychee', 'Mango', 'Mangosteen', 'Marionberry', 'Melon',
-  'Cantaloupe', 'Honeydew', 'Watermelon', 'Miracle fruit', 'Mulberry', 'Nectarine', 'Nance', 'Orange',
-  'Blood orange', 'Clementine', 'Mandarine', 'Tangerine', 'Papaya', 'Passionfruit', 'Peach', 'Pear',
-  'Persimmon', 'Plantain', 'Plum', 'Prune', 'Pineapple', 'Pineberry', 'Plumcot', 'Pomegranate', 'Pomelo',
-  'Purple mangosteen', 'Quince', 'Raspberry', 'Salmonberry', 'Rambutan', 'Redcurrant', 'Salal', 'Salak', 'Satsuma',
-  'Soursop', 'Star apple', 'Star fruit', 'Strawberry', 'Surinam cherry', 'Tamarillo', 'Tamarind', 'Ugli fruit',
-  'White currant', 'White sapote', 'Yuzu', 'Bell pepper', 'Chili pepper', 'Corn kernel',
-  'Cucumber', 'Eggplant', 'Olive', 'Pea', 'Pumpkin', 'Squash', 'Tomato', 'Zucchini'];
-
 class TypeAhead extends React.Component {
   state = { value: '' }
 
@@ -46,7 +32,7 @@ class TypeAhead extends React.Component {
 
   render() {
     const { value } = this.state;
-
+    const { data } = this.props;
     return (
       <div className="typeahead-container">
         <Downshift selectedItem={value} onStateChange={this.handleStateChange}>
@@ -77,7 +63,7 @@ class TypeAhead extends React.Component {
                   <ul {...getMenuProps()} className={`base-menu ${isOpen ? 'isOpen' : ''}`}>
                     {
                       isOpen && inputValue ?
-                        items
+                        data
                           .filter(item => !inputValue || item.toLowerCase().includes(inputValue.toLowerCase()))
                           .map((item, index) => (
                             <li
@@ -113,5 +99,9 @@ class TypeAhead extends React.Component {
     );
   }
 }
+
+TypeAhead.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.string)
+};
 
 export default TypeAhead;
