@@ -22,18 +22,13 @@ const XIcon = () => (
 class TypeAhead extends React.Component {
   state = { value: '' }
 
-  dbInputValue = _.debounce(inputVal => {
-    console.info('Db received: ', inputVal)
-    this.setState({ value: inputVal});
-  }, 1000);
-
-  handleStateChange = (changes) => {
+  handleStateChange = _.throttle((changes) => {
     if (changes.hasOwnProperty('selectedItem')) {
-      this.dbInputValue(changes.selectedItem);
+      this.setState({ value: changes.selectedItem });
     } else if (changes.hasOwnProperty('inputValue')) {
-      this.dbInputValue(changes.inputValue);
+      this.setState({ value: changes.inputValue });
     }
-  }
+  }, 500);
 
   render() {
     const { value } = this.state;
@@ -67,9 +62,9 @@ class TypeAhead extends React.Component {
                 <div className="downshift-menu-container">
                   <ul {...getMenuProps()} className={`base-menu ${isOpen ? 'isOpen' : ''}`}>
                     {
-                      isOpen && inputValue ?
+                      isOpen && value ?
                         data
-                          .filter(item => !inputValue || item.toLowerCase().includes(inputValue.toLowerCase()))
+                          .filter(item => !value || item.toLowerCase().includes(value.toLowerCase()))
                           .map((item, index) => (
                             <li
                               className="menu-item"
@@ -86,8 +81,8 @@ class TypeAhead extends React.Component {
                             >
                               <span>
                                 {
-                                  item.includes(' ') && !inputValue.includes(' ') ?
-                                    item.split(' ').map(i => i.toLowerCase().includes(inputValue.toLowerCase()) ? (<b key={i}> {i} </b>) : (i)) :
+                                  item.includes(' ') && !value.includes(' ') ?
+                                    item.split(' ').map(i => i.toLowerCase().includes(value.toLowerCase()) ? (<b key={i}> {i} </b>) : (i)) :
                                     (<b>{item}</b>)
                                 }
                               </span>
