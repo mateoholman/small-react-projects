@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
+import _ from 'lodash';
 
 require('./TypeAhead.scss');
 
@@ -21,12 +22,16 @@ const XIcon = () => (
 class TypeAhead extends React.Component {
   state = { value: '' }
 
+  dbInputValue = _.debounce(inputVal => {
+    console.info('Db received: ', inputVal)
+    this.setState({ value: inputVal});
+  }, 1000);
+
   handleStateChange = (changes) => {
-    console.info('Handle change received: ', changes);
     if (changes.hasOwnProperty('selectedItem')) {
-      this.setState({ value: changes.selectedItem });
+      this.dbInputValue(changes.selectedItem);
     } else if (changes.hasOwnProperty('inputValue')) {
-      this.setState({ value: changes.inputValue });
+      this.dbInputValue(changes.inputValue);
     }
   }
 
