@@ -22,7 +22,15 @@ const XIcon = () => (
 class TypeAhead extends React.Component {
   state = { value: '' }
 
-  handleStateChange = _.throttle((changes) => {
+  handleStateChange = (changes) => {
+    if (changes.hasOwnProperty('selectedItem')) {
+      this.setState({ value: changes.selectedItem });
+    } else if (changes.hasOwnProperty('inputValue')) {
+      this.setState({ value: changes.inputValue });
+    }
+  };
+
+  throttledHandleStateChange = _.throttle((changes) => {
     if (changes.hasOwnProperty('selectedItem')) {
       this.setState({ value: changes.selectedItem });
     } else if (changes.hasOwnProperty('inputValue')) {
@@ -32,10 +40,10 @@ class TypeAhead extends React.Component {
 
   render() {
     const { value } = this.state;
-    const { data } = this.props;
+    const { data, throttle } = this.props;
     return (
       <div className="typeahead-container">
-        <Downshift selectedItem={value} onStateChange={this.handleStateChange}>
+        <Downshift selectedItem={value} onStateChange={throttle ? this.handleStateChange: this.throttledHandleStateChange}>
           {({
             getInputProps,
             getItemProps,
@@ -101,7 +109,8 @@ class TypeAhead extends React.Component {
 }
 
 TypeAhead.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.string)
+  data: PropTypes.arrayOf(PropTypes.string),
+  throttle: PropTypes.bool
 };
 
 export default TypeAhead;

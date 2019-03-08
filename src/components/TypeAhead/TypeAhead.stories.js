@@ -18,4 +18,5 @@ const items = ['Açaí', 'Apple', 'Akee', 'Apricot', 'Avocado', 'Banana', 'Bilbe
   'Cucumber', 'Eggplant', 'Olive', 'Pea', 'Pumpkin', 'Squash', 'Tomato', 'Zucchini'];
 
 storiesOf('TypeAhead', module)
-  .add('Downshift', () => <TypeAhead data={items} />);
+  .add('Downshift', () => <TypeAhead data={items} />)
+  .add('Throttled Downshift', () => <TypeAhead data={items} throttled />);
