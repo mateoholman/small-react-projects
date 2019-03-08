@@ -16,7 +16,9 @@ const items = ['Açaí', 'Apple', 'Akee', 'Apricot', 'Avocado', 'Banana', 'Bilbe
   'Soursop', 'Star apple', 'Star fruit', 'Strawberry', 'Surinam cherry', 'Tamarillo', 'Tamarind', 'Ugli fruit',
   'White currant', 'White sapote', 'Yuzu', 'Bell pepper', 'Chili pepper', 'Corn kernel',
   'Cucumber', 'Eggplant', 'Olive', 'Pea', 'Pumpkin', 'Squash', 'Tomato', 'Zucchini'];
+const dirtyItems = ['Dupe', 'Dupe', 'Dupe', 'Acaí', 'Two Words', 'Açaí'];
 
 storiesOf('TypeAhead', module)
   .add('Downshift', () => <TypeAhead data={items} />)
-  .add('Throttled Downshift', () => <TypeAhead data={items} throttled />);
+  .add('Throttled Downshift', () => <TypeAhead data={items} throttled />)
+  .add('Normalized Data', () => <TypeAhead data={dirtyItems} normalize />);

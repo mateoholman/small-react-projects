@@ -20,7 +20,28 @@ const XIcon = () => (
 );
 
 class TypeAhead extends React.Component {
-  state = { value: '' }
+  state = { value: '', data: [] }
+
+  componentDidMount() {
+    if (this.props.data){
+      const sanitizedData = this.sanitizeData(this.props.data);
+      this.setState({ data: sanitizedData });
+    }
+  }
+
+  sanitizeData = (data) => {
+    const sanitizedData = [...data];
+    let normalData = sanitizedData;
+    // Normalize the data if it's requested
+    if (this.props.normalize){
+      normalData = sanitizedData.map(item => item.normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+      console.info('Sanitized data is: ', normalData);
+    }
+    // Add the data to a set to remove duplicate items
+    const dataSet = new Set(normalData);
+    return [...dataSet];
+
+  }
 
   handleStateChange = (changes) => {
     if (changes.hasOwnProperty('selectedItem')) {
@@ -39,8 +60,8 @@ class TypeAhead extends React.Component {
   }, 500);
 
   render() {
-    const { value } = this.state;
-    const { data, throttle } = this.props;
+    const { value, data } = this.state;
+    const { throttle } = this.props;
     return (
       <div className="typeahead-container">
         <Downshift selectedItem={value} onStateChange={throttle ? this.handleStateChange: this.throttledHandleStateChange}>
@@ -110,6 +131,8 @@ class TypeAhead extends React.Component {
 
 TypeAhead.propTypes = {
   data: PropTypes.arrayOf(PropTypes.string),
+  /*Normalize removes accents from characters for better matching*/
+  normalize: PropTypes.bool,
   throttle: PropTypes.bool
 };
 
