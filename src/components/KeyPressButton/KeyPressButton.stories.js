@@ -3,4 +3,5 @@ import { storiesOf } from '@storybook/react';
 import KeyPressButton from './index';
 
 storiesOf('KeyPressButton', module)
-  .add('Standard', () => <KeyPressButton char="a" description="kick" />);
+  .add('Default', () => <KeyPressButton char="a" description="kick" />)
+  .add('Active', () => <KeyPressButton char="s" description="hi-hat" active />);

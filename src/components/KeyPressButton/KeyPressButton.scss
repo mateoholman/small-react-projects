@@ -1,11 +1,31 @@
 .button-container {
+  background-color: #000;
   border: 2px solid black;
+  border-radius: .3em;
+  height: 5em;
+  text-align: center;
+  transition: all .08s;
+  width: 4em;
+}
+
+.active {
+  transform: scale(1.1);
+  border-color: #ffc600;
+  box-shadow: 0 0 10px #ffc600;
 }
 
 .button-char {
   color: white;
+  font-size: 3em;
+  margin: 0;
+  text-transform: capitalize;
 }
 
 .button-description {
-  color: yellow;
+  color: #ffc600;
+  font-family: 'Lucida Console';
+  font-size: .8em;
+  letter-spacing: .05em;
+  margin: 0;
+  text-transform: uppercase;
 }

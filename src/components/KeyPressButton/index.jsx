@@ -1,13 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+require('./KeyPressButton.scss');
 
-const KeyPressButton = (props) => (
-  <div className="button-container">
-    <p className="button-char">{props.char}</p>
-    <p className="button-description">{props.description}</p>
-  </div>
-);
-
+class KeyPressButton extends React.Component {
+  render() {
+    const { char, description, active } = this.props;
+    return (
+      <div className={`button-container ${active ? 'active' : ''}`}>
+        <p className="button-char">{char}</p>
+        <p className="button-description">{description}</p>
+      </div>
+    );
+  } 
+}
+  
 KeyPressButton.propTypes = {
   char: PropTypes.string.isRequired,
   description: PropTypes.string
