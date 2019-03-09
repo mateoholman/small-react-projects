@@ -34,8 +34,9 @@ class TypeAhead extends React.Component {
     let normalData = sanitizedData;
     // Normalize the data if it's requested
     if (this.props.normalize){
+      //Decompose graphene characters to the character + the diacritic, then
+      //remove the diactritic.
       normalData = sanitizedData.map(item => item.normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-      console.info('Sanitized data is: ', normalData);
     }
     // Add the data to a set to remove duplicate items
     const dataSet = new Set(normalData);
