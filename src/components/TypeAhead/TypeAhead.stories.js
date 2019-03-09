@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import TypeAhead from './index.jsx';
+import TypeAheadForm from './TypeAheadForm';
 
 const items = ['Açaí', 'Apple', 'Akee', 'Apricot', 'Avocado', 'Banana', 'Bilberry', 'Blackberry',
   'Blackcurrant', 'Black sapote', 'Blueberry', 'Boysenberry', 'Buddha\'s hand', 'Crab apples',
@@ -19,6 +19,6 @@ const items = ['Açaí', 'Apple', 'Akee', 'Apricot', 'Avocado', 'Banana', 'Bilbe
 const dirtyItems = ['Dupe', 'Dupe', 'Dupe', 'Acaí', 'Two Words', 'Açaí'];
 
 storiesOf('TypeAhead', module)
-  .add('Downshift', () => <TypeAhead data={items} />)
-  .add('Throttled Downshift', () => <TypeAhead data={items} throttled />)
-  .add('Normalized Data', () => <TypeAhead data={dirtyItems} normalize />);
+  .add('Downshift', () => <TypeAheadForm data={items} />)
+  .add('Throttled Downshift', () => <TypeAheadForm data={items} throttled />)
+  .add('Normalized Data', () => <TypeAheadForm data={dirtyItems} normalize />);

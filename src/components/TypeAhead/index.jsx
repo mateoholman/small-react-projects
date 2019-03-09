@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import _ from 'lodash';
 
 require('./TypeAhead.scss');
 
@@ -19,53 +18,11 @@ const XIcon = () => (
   </svg>
 );
 
-class TypeAhead extends React.Component {
-  state = { value: '', data: [] }
-
-  componentDidMount() {
-    if (this.props.data){
-      const sanitizedData = this.sanitizeData(this.props.data);
-      this.setState({ data: sanitizedData });
-    }
-  }
-
-  sanitizeData = (data) => {
-    const sanitizedData = [...data];
-    let normalData = sanitizedData;
-    // Normalize the data if it's requested
-    if (this.props.normalize){
-      //Decompose graphene characters to the character + the diacritic, then
-      //remove the diactritic.
-      normalData = sanitizedData.map(item => item.normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-    }
-    // Add the data to a set to remove duplicate items
-    const dataSet = new Set(normalData);
-    return [...dataSet];
-
-  }
-
-  handleStateChange = (changes) => {
-    if (changes.hasOwnProperty('selectedItem')) {
-      this.setState({ value: changes.selectedItem });
-    } else if (changes.hasOwnProperty('inputValue')) {
-      this.setState({ value: changes.inputValue });
-    }
-  };
-
-  throttledHandleStateChange = _.throttle((changes) => {
-    if (changes.hasOwnProperty('selectedItem')) {
-      this.setState({ value: changes.selectedItem });
-    } else if (changes.hasOwnProperty('inputValue')) {
-      this.setState({ value: changes.inputValue });
-    }
-  }, 500);
-
-  render() {
-    const { value, data } = this.state;
-    const { throttle } = this.props;
+const TypeAhead = (props) => {
+    const { data, handleChange, value } = props;
     return (
       <div className="typeahead-container">
-        <Downshift selectedItem={value} onStateChange={throttle ? this.handleStateChange: this.throttledHandleStateChange}>
+        <Downshift selectedItem={value} onStateChange={handleChange}>
           {({
             getInputProps,
             getItemProps,
@@ -128,13 +85,11 @@ class TypeAhead extends React.Component {
       </div>
     );
   }
-}
 
 TypeAhead.propTypes = {
   data: PropTypes.arrayOf(PropTypes.string),
-  /*Normalize removes accents from characters for better matching*/
-  normalize: PropTypes.bool,
-  throttle: PropTypes.bool
+  handleChange: PropTypes.func,
+  value: PropTypes.string
 };
 
 export default TypeAhead;
