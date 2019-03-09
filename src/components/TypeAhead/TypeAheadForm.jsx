@@ -30,6 +30,12 @@ class TypeAheadForm extends React.Component {
 
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('You submitted: ', this.state.value);
+    this.setState({ value: ''})
+  }
+
   handleStateChange = (changes) => {
     if (changes.hasOwnProperty('selectedItem')) {
       this.setState({ value: changes.selectedItem });
@@ -47,15 +53,19 @@ class TypeAheadForm extends React.Component {
   }, 500);
 
   render() {
-    const { throttle } = this.props;
+    const { throttle, submitButton } = this.props;
     const { data, value } = this.state;
     return (
-      <form>
+      <form onSubmit={this.handleSubmit} className="form-display">
         <TypeAhead
           data={data}
           handleChange={throttle ? this.throttledHandleStateChange : this.handleStateChange}
           value={value}
         />
+        {
+          submitButton &&
+          <button type="submit" className="submit-button">Submit</button>
+        }
       </form>
     )
   }
@@ -65,6 +75,7 @@ TypeAhead.propTypes = {
   data: PropTypes.arrayOf(PropTypes.string),
   /*Normalize removes accents from characters for better matching*/
   normalize: PropTypes.bool,
+  submitButton: PropTypes.bool,
   throttle: PropTypes.bool
 };
 
