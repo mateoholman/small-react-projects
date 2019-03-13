@@ -5,17 +5,44 @@ import KeyPressButton from '../KeyPressButton';
 require('./DrumMachine.scss');
 
 class DrumMachine extends React.Component {
+  state = {
+    drumKit: [],
+    drumKitKeys: []
+  };
+
   componentDidMount() {
-    window.addEventListener("keypress", this.handleKeyPress);
+    if (this.props.drumKit && this.props.drumKit.length > 0) {
+      const drumKitKeys = this.props.drumKit.map(kit => kit.char);
+      this.setState({ drumKitKeys: drumKitKeys });
+    }
+    this.setState({ drumKit: this.props.drumKit });
+    window.addEventListener("keydown", this.handleKeyDown.bind(this));
+    window.addEventListener("keyup", this.handleKeyUp.bind(this));
   }
+
   componentWillUnmount() {
     window.removeEventListener("keypress", this.handleKeyPress);
   }
-  handleKeyPress(e) {
-    console.info('Keypress info: ', e);
+
+  handleKeyDown(e) {
+    if (this.state.drumKitKeys.find(k => k === e.key)){
+      const oldKit = [...this.state.drumKit]
+      const activeElement = oldKit.find(kit => kit.char === e.key);
+      activeElement.active = true;
+      this.setState({ drumKit: oldKit });
+    }
+
   }
+
+  handleKeyUp(e) {
+    const oldKit = [...this.state.drumKit]
+    const activeElement = oldKit.find(kit => kit.char === e.key);
+    activeElement.active = false;
+    this.setState({ drumKit: oldKit });
+  }
+
   render() {
-    const { drumKit } = this.props;
+    const { drumKit } = this.state;
     return (
       <div className="drum-machine-container">
         {
@@ -25,6 +52,7 @@ class DrumMachine extends React.Component {
               key={kit.char}
               char={kit.char}
               description={kit.description}
+              active={kit.active}
             />
           )
         }
