@@ -1,19 +1,23 @@
 import React from 'react';
 
-class LocalDT extends React.Component {
-    state = {
+interface State {
+    currentDateTime: Date
+}
+
+class LocalDT extends React.Component<State> {
+    public state = {
         currentDateTime: new Date()
     }
 
-    updateDateTime = () => setInterval(() => {
+    public updateDateTime = () => setInterval(() => {
         this.setState({ currentDateTime: new Date() })
     }, 1000);
 
-    componentDidMount() {
+    public componentDidMount() {
         this.updateDateTime();
     }
 
-    render() {
+    public render() {
         return (
             <div>
                 <h1>{this.state.currentDateTime.toUTCString()}</h1>
