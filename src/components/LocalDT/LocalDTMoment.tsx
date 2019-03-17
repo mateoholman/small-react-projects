@@ -1,23 +1,31 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 
-class LocalDTMoment extends React.Component {
-    state = {
+interface State {
+    currentDateTime: moment.Moment,
+    endTime: moment.Moment
+};
+
+interface Props {
+    endTime: string
+};
+
+class LocalDTMoment extends React.Component<Props, State> {
+    public state = {
         currentDateTime: moment(),
-        endTime: null
+        endTime: moment()
     }
 
-    updateDateTime = () => setInterval(() => {
+    public updateDateTime = () => setInterval(() => {
         this.setState({ currentDateTime: moment() })
     }, 1000);
 
-    componentDidMount() {
+    public componentDidMount() {
         this.updateDateTime();
     }
 
-    render() {
-        const duration = moment.duration(moment(this.props.endTime) - this.state.currentDateTime);
+    public render() {
+        const duration = moment.duration(+moment(this.props.endTime) - +this.state.currentDateTime);
         return (
             <div>
                 {
@@ -35,10 +43,6 @@ class LocalDTMoment extends React.Component {
             </div>
         );
     }
-}
-
-LocalDTMoment.propTypes = {
-    endTime: PropTypes.string
 }
 
 export default LocalDTMoment;
