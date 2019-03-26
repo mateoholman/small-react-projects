@@ -1,76 +1,52 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import NewTodo from "./NewTodo";
 import TodoItem from "./TodoItem";
 import { Container, List } from "./Styled";
 
 import './TodoGlobal.css';
-export default class TodoList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todos: [],
-      newTodo: ""
-    };
-    this.handleNewChange = this.handleNewChange.bind(this);
-    this.handleNewSubmit = this.handleNewSubmit.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleCompletedToggle = this.handleCompletedToggle.bind(this);
+export default function TodoList() {
+  const [newTodo, updateNewTodo] = useState('');
+  const [todos, updateTodos] = useState([]);
+
+  const handleNewChange = (e) => {
+    updateNewTodo(e.target.value);
   }
-  handleNewChange(e) {
-    this.setState({
-      newTodo: e.target.value
-    });
-  }
-  handleNewSubmit(e) {
+  const handleNewSubmit = (e) => {
     e.preventDefault();
-    this.setState(prevState => {
-      return {
-        todos: [
-          ...prevState.todos,
-          { id: Date.now(), text: prevState.newTodo, completed: false }
-        ],
-        newTodo: ""
-      };
-    });
+    updateTodos(prevTodos => [
+      ...prevTodos,
+      { id: Date.now(), text: newTodo, completed: false }
+    ]);
+    updateNewTodo('');
   }
-  handleDelete(id, e) {
-    this.setState(prevState => {
-      return {
-        todos: prevState.todos.filter(todo => todo.id !== id)
-      };
-    });
+  const handleDelete = (id, e) => {
+    updateTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
   }
-  handleCompletedToggle(id, e) {
-    this.setState(prevState => {
-      return {
-        todos: prevState.todos.map(todo =>
-          todo.id === id ? { ...todo, completed: !todo.completed } : todo
-        )
-      };
-    });
+  const handleCompletedToggle = (id, e) => {
+    updateTodos(prevTodos => prevTodos.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
   }
-  render() {
-    const { newTodo, todos } = this.state;
-    return (
-      <Container todos={todos}>
-        <NewTodo
-          onSubmit={this.handleNewSubmit}
-          value={newTodo}
-          onChange={this.handleNewChange}
-        />
-        {!!todos.length && (
-          <List>
-            {todos.map(todo => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                onChange={this.handleCompletedToggle}
-                onDelete={this.handleDelete}
-              />
-            ))}
-          </List>
-        )}
-      </Container>
-    );
-  }
+
+  return (
+    <Container todos={todos}>
+      <NewTodo
+        onSubmit={handleNewSubmit}
+        value={newTodo}
+        onChange={handleNewChange}
+      />
+      {!!todos.length && (
+        <List>
+          {todos.map(todo => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onChange={handleCompletedToggle}
+              onDelete={handleDelete}
+            />
+          ))}
+        </List>
+      )}
+    </Container>
+  );
 }
