@@ -6,9 +6,20 @@ export const Container = styled("div")`
   min-width: 300px;
   display: flex;
   flex-direction: column;
+  background: #373b44;
+  background: -webkit-linear-gradient(
+    to right,
+    #4286f4,
+    #373b44
+  );
+  background: linear-gradient(
+    to right,
+    #4286f4,
+    #373b44
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   input[type="text"] {
     border-radius: ${props =>
-    props.todos.length ? "0.25em 0.25em 0 0" : "0.25em"};
+      props.todos.length ? "0.25em 0.25em 0 0" : "0.25em"};
   }
 `;
 

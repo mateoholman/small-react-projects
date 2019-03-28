@@ -3,7 +3,6 @@ import NewTodo from "./NewTodo";
 import TodoItem from "./TodoItem";
 import { Container, List } from "./Styled";
 
-import './TodoGlobal.css';
 export default function TodoList() {
   const [newTodo, updateNewTodo] = useState('');
   const [todos, updateTodos] = useState([]);
