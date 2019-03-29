@@ -2,29 +2,18 @@ import React, { Component } from "react";
 import NewTodo from "./NewTodo";
 import TodoItem from "./TodoItem";
 import { Container, List } from "./Styled";
-import About from "./About";
 
-export default class TodoList extends Component {
+export default class AdvancedTodoList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       todos: [],
       newTodo: "",
-      showAbout: false
     };
     this.handleNewChange = this.handleNewChange.bind(this);
     this.handleNewSubmit = this.handleNewSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCompletedToggle = this.handleCompletedToggle.bind(this);
-    this.handleKey = this.handleKey.bind(this);
-  }
-  handleKey({ key }) {
-    this.setState(prevState => {
-      return {
-        showAbout:
-          key === "?" ? true : key === "Escape" ? false : prevState.showAbout
-      };
-    });
   }
   update(todos) {
     const inCompleteTodos = todos.reduce(
@@ -36,7 +25,6 @@ export default class TodoList extends Component {
   }
   componentDidMount() {
     const todos = JSON.parse(window.localStorage.getItem("todos") || "[]");
-    document.addEventListener("keydown", this.handleKey);
     this.update(todos);
     this.setState({ todos });
   }
@@ -44,9 +32,6 @@ export default class TodoList extends Component {
     if (prevState.todos !== this.state.todos) {
       this.update(this.state.todos);
     }
-  }
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKey);
   }
   handleNewChange(e) {
     this.setState({
@@ -82,7 +67,7 @@ export default class TodoList extends Component {
     });
   }
   render() {
-    const { newTodo, todos, showAbout } = this.state;
+    const { newTodo, todos } = this.state;
     return (
       <Container todos={todos}>
         <NewTodo
@@ -102,10 +87,6 @@ export default class TodoList extends Component {
             ))}
           </List>
         )}
-        <About
-          isOpen={showAbout}
-          onClose={() => this.setState({ showAbout: false })}
-        />
       </Container>
     );
   }
