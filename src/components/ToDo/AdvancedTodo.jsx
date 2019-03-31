@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewTodo from "./NewTodo";
 import TodoItem from "./TodoItem";
 import { Container, List } from "./Styled";
 
 export default function AdvancedTodoList() {
   const [newTodo, updateNewTodo] = useState('');
-  const initialTodos = JSON.parse(window.localStorage.getItem("todos")) || [];
+  const initialTodos = () => JSON.parse(window.localStorage.getItem("todos")) || [];
   const [todos, updateTodos] = useState(initialTodos);
 
-  // update(todos) {
-  //   const inCompleteTodos = todos.reduce(
-  //     (memo, todo) => (!todo.completed ? memo + 1 : memo),
-  //     0
-  //   );
-  //   document.title = inCompleteTodos ? `Todos (${inCompleteTodos})` : "Todos";
-  //   window.localStorage.setItem("todos", JSON.stringify(todos));
-  // }
+  useEffect(() => {
+    window.localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  useEffect(() => {
+    const inCompleteTodos = todos.reduce(
+      (memo, todo) => (!todo.completed ? memo + 1 : memo),
+      0
+    );
+    document.title = inCompleteTodos ? `Todos (${inCompleteTodos})` : "Todos";
+  });
+
   // componentDidMount() {
   //   const todos = JSON.parse(window.localStorage.getItem("todos") || "[]");
   //   this.update(todos);
