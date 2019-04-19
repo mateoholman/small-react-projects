@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import NewTodo from "./NewTodo";
 import TodoItem from "./TodoItem";
 import { Container, List } from "./Styled";
 
 export default function AdvancedTodoList() {
   const [newTodo, updateNewTodo] = useState('');
-  const initialTodos = () => JSON.parse(window.localStorage.getItem("todos")) || [];
+  const todoId = useRef(0);
+  const initialTodos = () => {
+    const valueFromStorage = JSON.parse(window.localStorage.getItem("todos")) || [];
+    todoId.current = valueFromStorage.reduce(
+      (memo, todo) => Math.max(memo, todo.id),
+      0
+    );
+    return valueFromStorage;
+  }
   const [todos, updateTodos] = useState(initialTodos);
-
   useEffect(() => {
     window.localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
@@ -20,26 +27,16 @@ export default function AdvancedTodoList() {
     document.title = inCompleteTodos ? `Todos (${inCompleteTodos})` : "Todos";
   });
 
-  // componentDidMount() {
-  //   const todos = JSON.parse(window.localStorage.getItem("todos") || "[]");
-  //   this.update(todos);
-  //   this.setState({ todos });
-  // }
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.todos !== this.state.todos) {
-  //     this.update(this.state.todos);
-  //   }
-  // }
-
   const handleNewChange = (e) => {
     updateNewTodo(e.target.value);
   }
 
   const handleNewSubmit = (e) => {
     e.preventDefault();
+    todoId.current += 1;
     updateTodos(prevTodos => [
       ...prevTodos,
-      { id: Date.now(), text: newTodo, completed: false }
+      { id: todoId.current, text: newTodo, completed: false }
     ]);
     updateNewTodo('');
   }
