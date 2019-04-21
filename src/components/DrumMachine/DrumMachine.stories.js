@@ -4,19 +4,19 @@ import DrumMachine from './index';
 
 const kit1 = [
   {
-    char: 'a',
+    char: 'h',
     description: 'kick'
   },
   {
-    char: 's',
+    char: 'j',
     description: 'snare'
   },
   {
-    char: 'd',
+    char: 'k',
     description: 'clap'
   },
   {
-    char: 'f',
+    char: 'l',
     description: 'hi-hat'
   }
 ];
